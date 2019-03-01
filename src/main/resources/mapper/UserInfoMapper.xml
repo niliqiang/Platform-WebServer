@@ -5,24 +5,27 @@
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="user_name" property="userName" jdbcType="VARCHAR" />
         <result column="gender" property="gender" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="passwd" property="passwd" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_name, gender
+        id, user_name, gender, phone, email, passwd
     </sql>
 
-    <select id="userInfoList" resultMap="baseResultMap">
+    <select id="signIn" resultMap="baseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from user_info order by id
+        from user_info where phone = #{phone} and passwd = #{passwd}
     </select>
 
-    <insert id="add" parameterType="com.platform.webserver.entity.UserInfoEntity">
-        insert into user_info(user_name, gender) values (#{user_name}, #{gender})
+    <insert id="signUp" parameterType="com.platform.webserver.entity.UserInfoEntity">
+        insert into user_info(phone, passwd) values (#{phone}, #{passwd})
     </insert>
 
-    <delete id="delete" parameterType="java.lang.String">
-        delete from user_info where id = #{id}
-    </delete>
+    <!--<delete id="delete" parameterType="java.lang.String">-->
+        <!--delete from user_info where id = #{id}-->
+    <!--</delete>-->
 
 </mapper>
